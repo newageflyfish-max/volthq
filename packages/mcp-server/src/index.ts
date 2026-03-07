@@ -16,10 +16,15 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
 import { FeedCache } from './feed-cache.js';
+import { SpendTracker } from './spend-tracker.js';
 import { checkPriceSchema, handleCheckPrice } from './tools/check-price.js';
 import { recommendRouteSchema, handleRecommendRoute } from './tools/recommend-route.js';
+import { getSpendSchema, handleGetSpend } from './tools/get-spend.js';
+import { getSavingsSchema, handleGetSavings } from './tools/get-savings.js';
+import { setBudgetAlertSchema, handleSetBudgetAlert } from './tools/set-budget-alert.js';
 
 const feedCache = new FeedCache();
+const spendTracker = new SpendTracker(feedCache);
 
 const server = new McpServer({
   name: 'volthq',
@@ -40,6 +45,30 @@ server.tool(
   'Get the optimal provider recommendation for a model based on cost, latency, reliability, or balanced optimization. Shows savings vs your current cost.',
   recommendRouteSchema.shape,
   async (input) => handleRecommendRoute(recommendRouteSchema.parse(input), feedCache),
+);
+
+// ── volt_get_spend ────────────────────────────────────
+server.tool(
+  'volt_get_spend',
+  'Get spending summary by provider and model for today, 7 days, or 30 days.',
+  getSpendSchema.shape,
+  async (input) => handleGetSpend(getSpendSchema.parse(input), spendTracker),
+);
+
+// ── volt_get_savings ──────────────────────────────────
+server.tool(
+  'volt_get_savings',
+  'Compare actual spend against optimal routing. Shows savings achieved and savings missed.',
+  getSavingsSchema.shape,
+  async (input) => handleGetSavings(getSavingsSchema.parse(input), spendTracker),
+);
+
+// ── volt_set_budget_alert ─────────────────────────────
+server.tool(
+  'volt_set_budget_alert',
+  'Set a budget threshold for daily, weekly, or monthly spend. Alerts when exceeded.',
+  setBudgetAlertSchema.shape,
+  async (input) => handleSetBudgetAlert(setBudgetAlertSchema.parse(input), spendTracker),
 );
 
 // ── Start ─────────────────────────────────────────────
