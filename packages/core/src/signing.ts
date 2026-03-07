@@ -24,13 +24,13 @@ export async function signFeed(
   const keyBytes = base64ToBytes(privateKeyBase64);
   const key = await crypto.subtle.importKey(
     'raw',
-    keyBytes,
+    keyBytes as unknown as ArrayBuffer,
     { name: 'Ed25519' },
     false,
     ['sign']
   );
-  
-  const signature = await crypto.subtle.sign('Ed25519', key, data);
+
+  const signature = await crypto.subtle.sign('Ed25519', key, data as unknown as ArrayBuffer);
   return bytesToBase64(new Uint8Array(signature));
 }
 
@@ -52,14 +52,14 @@ export async function verifyFeed(
     const keyBytes = base64ToBytes(publicKeyBase64);
     const key = await crypto.subtle.importKey(
       'raw',
-      keyBytes,
+      keyBytes as unknown as ArrayBuffer,
       { name: 'Ed25519' },
       false,
       ['verify']
     );
-    
+
     const sigBytes = base64ToBytes(signatureBase64);
-    return await crypto.subtle.verify('Ed25519', key, sigBytes, data);
+    return await crypto.subtle.verify('Ed25519', key, sigBytes as unknown as ArrayBuffer, data as unknown as ArrayBuffer);
   } catch {
     return false;
   }
@@ -105,7 +105,7 @@ function base64ToBytes(base64: string): Uint8Array {
 function bytesToBase64(bytes: Uint8Array): string {
   let binString = '';
   for (let i = 0; i < bytes.length; i++) {
-    binString += String.fromCharCode(bytes[i]);
+    binString += String.fromCharCode(bytes[i]!);
   }
   return btoa(binString);
 }

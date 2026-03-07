@@ -6,7 +6,10 @@
  */
 import { z } from 'zod';
 import type { FeedCache } from '../feed-cache.js';
-export declare const checkPriceSchema: any;
+export declare const checkPriceSchema: z.ZodObject<{
+    model: z.ZodString;
+    max_results: z.ZodDefault<z.ZodNumber>;
+}, z.core.$strip>;
 export type CheckPriceInput = z.infer<typeof checkPriceSchema>;
 export declare function handleCheckPrice(input: CheckPriceInput, feedCache: FeedCache): {
     content: {

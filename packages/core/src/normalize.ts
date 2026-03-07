@@ -35,7 +35,7 @@ export function makeOfferingId(
 export function shortModelName(fullName: string): string {
   // Remove org prefix
   const parts = fullName.split('/');
-  let name = parts[parts.length - 1];
+  let name = parts[parts.length - 1] ?? fullName;
   
   // Common simplifications
   name = name.replace(/Meta-Llama-/i, 'Llama-');

@@ -153,7 +153,7 @@ export function scoreOfferings(
   const minPrice = Math.min(...prices);
   
   // Step 3: Get weights for the optimization target
-  const weights = WEIGHTS[profile.optimize] || WEIGHTS.balanced;
+  const weights = WEIGHTS[profile.optimize] ?? WEIGHTS['balanced']!;
   
   // Step 4: Score each offering
   const scored: ScoredOffering[] = eligible.map(offering => {
@@ -205,7 +205,7 @@ export function generateRecommendation(
   
   if (scored.length === 0) return null;
   
-  const recommended = scored[0];
+  const recommended = scored[0]!;
   const alternatives = scored.slice(1, 4); // top 3 alternatives
   
   const recommendedCost = (

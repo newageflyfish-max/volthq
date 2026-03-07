@@ -117,7 +117,7 @@ export function scoreOfferings(offerings, profile = DEFAULT_ROUTING_PROFILE) {
     const maxPrice = Math.max(...prices);
     const minPrice = Math.min(...prices);
     // Step 3: Get weights for the optimization target
-    const weights = WEIGHTS[profile.optimize] || WEIGHTS.balanced;
+    const weights = WEIGHTS[profile.optimize] ?? WEIGHTS['balanced'];
     // Step 4: Score each offering
     const scored = eligible.map(offering => {
         const qualityComponent = scoreQuality(offering);

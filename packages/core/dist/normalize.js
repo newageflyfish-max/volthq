@@ -25,7 +25,7 @@ export function makeOfferingId(providerId, model, quantization, gpuType, region)
 export function shortModelName(fullName) {
     // Remove org prefix
     const parts = fullName.split('/');
-    let name = parts[parts.length - 1];
+    let name = parts[parts.length - 1] ?? fullName;
     // Common simplifications
     name = name.replace(/Meta-Llama-/i, 'Llama-');
     name = name.replace(/Llama-3\.1-/i, 'Llama-');

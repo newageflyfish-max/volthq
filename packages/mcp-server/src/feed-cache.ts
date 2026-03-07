@@ -7,6 +7,7 @@
  */
 
 import type { PricingFeed, Offering, CircuitBreakerStatus, CircuitState } from '@volthq/core';
+import { SNAPSHOT_OFFERINGS } from './snapshot.js';
 
 const FEED_URL = 'https://feed.volthq.dev/v1/prices';
 const REFRESH_INTERVAL_MS = 60_000; // 60 seconds
@@ -28,6 +29,8 @@ export class FeedCache {
 
   constructor(feedUrl?: string) {
     this.feedUrl = feedUrl ?? FEED_URL;
+    // Seed with embedded snapshot so tools work before a live feed is available
+    this.offerings = SNAPSHOT_OFFERINGS;
   }
 
   /** Start periodic background refresh. */
@@ -94,7 +97,7 @@ export class FeedCache {
         return;
       }
 
-      const feed: PricingFeed = await response.json();
+      const feed = (await response.json()) as PricingFeed;
 
       if (!feed.offerings || !Array.isArray(feed.offerings)) {
         this.recordFailure();

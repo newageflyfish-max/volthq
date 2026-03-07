@@ -5,6 +5,7 @@
  * Fail-open: if the feed cannot be fetched, returns stale data.
  * If no data has ever been fetched, returns an empty offerings array.
  */
+import { SNAPSHOT_OFFERINGS } from './snapshot.js';
 const FEED_URL = 'https://feed.volthq.dev/v1/prices';
 const REFRESH_INTERVAL_MS = 60_000; // 60 seconds
 const CIRCUIT_BREAKER_THRESHOLD = 3; // consecutive failures before opening circuit
@@ -21,6 +22,8 @@ export class FeedCache {
     feedUrl;
     constructor(feedUrl) {
         this.feedUrl = feedUrl ?? FEED_URL;
+        // Seed with embedded snapshot so tools work before a live feed is available
+        this.offerings = SNAPSHOT_OFFERINGS;
     }
     /** Start periodic background refresh. */
     start() {
@@ -79,7 +82,7 @@ export class FeedCache {
                 this.recordFailure();
                 return;
             }
-            const feed = await response.json();
+            const feed = (await response.json());
             if (!feed.offerings || !Array.isArray(feed.offerings)) {
                 this.recordFailure();
                 return;
