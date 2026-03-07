@@ -1,0 +1,16 @@
+{
+  "name": "@volthq/core",
+  "version": "0.1.0",
+  "description": "Core types, scoring algorithm, and utilities for Volt HQ",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT"
+}
