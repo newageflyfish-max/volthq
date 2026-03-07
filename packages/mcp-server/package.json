@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
-    "@volthq/core": "workspace:*"
+    "@volthq/core": "file:../core"
   },
   "license": "MIT",
   "engines": {
