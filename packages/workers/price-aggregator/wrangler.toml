@@ -3,7 +3,7 @@ main = "src/index.ts"
 compatibility_date = "2024-12-01"
 
 [triggers]
-crons = ["* * * * *"]  # every 60 seconds
+crons = ["*/5 * * * *"]  # every 5 minutes
 
 [[kv_namespaces]]
 binding = "VOLT_PRICING"
