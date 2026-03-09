@@ -73,40 +73,52 @@ export default function Home() {
             </thead>
             <tbody className="divide-y divide-neutral-800/50">
               <tr className="bg-emerald-950/20">
+                <td className="px-3 sm:px-6 py-4 text-white font-medium">DeepInfra</td>
+                <td className="px-3 sm:px-6 py-4 text-neutral-300">Llama-70B</td>
+                <td className="px-3 sm:px-6 py-4 text-right font-mono text-emerald-400">$0.24</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-emerald-400 text-xs font-medium">cheapest</td>
+              </tr>
+              <tr>
                 <td className="px-3 sm:px-6 py-4 text-white font-medium">Hyperbolic</td>
                 <td className="px-3 sm:px-6 py-4 text-neutral-300">Llama-70B (FP8)</td>
                 <td className="px-3 sm:px-6 py-4 text-right font-mono text-emerald-400">$0.40</td>
-                <td className="px-3 sm:px-6 py-4 text-right text-emerald-400 text-xs font-medium">cheapest</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-emerald-400 text-xs font-medium">1.7x more</td>
               </tr>
               <tr>
                 <td className="px-3 sm:px-6 py-4 text-white font-medium">Groq</td>
                 <td className="px-3 sm:px-6 py-4 text-neutral-300">Llama-70B</td>
                 <td className="px-3 sm:px-6 py-4 text-right font-mono text-emerald-400">$0.69</td>
-                <td className="px-3 sm:px-6 py-4 text-right text-emerald-400 text-xs font-medium">1.7x more</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-emerald-400 text-xs font-medium">2.9x more</td>
+              </tr>
+              <tr>
+                <td className="px-3 sm:px-6 py-4 text-white font-medium">Fireworks AI</td>
+                <td className="px-3 sm:px-6 py-4 text-neutral-300">Llama-70B</td>
+                <td className="px-3 sm:px-6 py-4 text-right font-mono text-emerald-400">$0.70</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-emerald-400 text-xs font-medium">2.9x more</td>
               </tr>
               <tr>
                 <td className="px-3 sm:px-6 py-4 text-white font-medium">Together AI</td>
                 <td className="px-3 sm:px-6 py-4 text-neutral-300">Llama-70B</td>
                 <td className="px-3 sm:px-6 py-4 text-right font-mono text-emerald-400">$0.88</td>
-                <td className="px-3 sm:px-6 py-4 text-right text-emerald-400 text-xs font-medium">2.2x more</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-emerald-400 text-xs font-medium">3.7x more</td>
               </tr>
               <tr>
                 <td className="px-3 sm:px-6 py-4 text-white font-medium">Akash</td>
                 <td className="px-3 sm:px-6 py-4 text-neutral-300">Llama-70B (H100)</td>
                 <td className="px-3 sm:px-6 py-4 text-right font-mono text-yellow-400">$6.11</td>
-                <td className="px-3 sm:px-6 py-4 text-right text-yellow-400 text-xs font-medium">15.3x more</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-yellow-400 text-xs font-medium">25.5x more</td>
               </tr>
               <tr>
                 <td className="px-3 sm:px-6 py-4 text-white font-medium">OpenAI</td>
                 <td className="px-3 sm:px-6 py-4 text-neutral-300">GPT-4o</td>
                 <td className="px-3 sm:px-6 py-4 text-right font-mono text-red-400">$6.25</td>
-                <td className="px-3 sm:px-6 py-4 text-right text-red-400 text-xs font-medium">15.6x more</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-red-400 text-xs font-medium">26.0x more</td>
               </tr>
               <tr>
                 <td className="px-3 sm:px-6 py-4 text-white font-medium">Anthropic</td>
                 <td className="px-3 sm:px-6 py-4 text-neutral-300">Claude Sonnet 4.6</td>
                 <td className="px-3 sm:px-6 py-4 text-right font-mono text-red-400">$9.00</td>
-                <td className="px-3 sm:px-6 py-4 text-right text-red-400 text-xs font-medium">22.5x more</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-red-400 text-xs font-medium">37.5x more</td>
               </tr>
             </tbody>
           </table>

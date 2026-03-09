@@ -1,7 +1,7 @@
 /**
  * Volt HQ — Price Aggregator Worker
  *
- * Runs on a 60-second cron, polls all 6 provider adapters in parallel,
+ * Runs on a 60-second cron, polls all 8 provider adapters in parallel,
  * aggregates offerings, signs the feed with Ed25519, and writes to KV.
  *
  * Fail-open: if a provider fails, the others still publish.
@@ -17,6 +17,8 @@ import { anthropicAdapter } from './adapters/anthropic.js';
 import { akashAdapter } from './adapters/akash.js';
 import { groqAdapter } from './adapters/groq.js';
 import { togetherAdapter } from './adapters/together.js';
+import { deepinfraAdapter } from './adapters/deepinfra.js';
+import { fireworksAdapter } from './adapters/fireworks.js';
 
 interface Env {
   VOLT_PRICING: KVNamespace;
@@ -30,6 +32,8 @@ const adapters: ProviderAdapter[] = [
   akashAdapter,
   groqAdapter,
   togetherAdapter,
+  deepinfraAdapter,
+  fireworksAdapter,
 ];
 
 /**

@@ -17,7 +17,7 @@ The revenue is: **performance fees on demonstrated savings.**
 - **npm package:** volthq-mcp-server
 
 ## What Volt HQ Does
-1. **Aggregates** real-time compute pricing from centralized (OpenAI, Anthropic, Groq, Together AI) and decentralized (Akash, Hyperbolic) providers
+1. **Aggregates** real-time compute pricing from centralized (OpenAI, Anthropic, Groq, Together AI, DeepInfra, Fireworks AI) and decentralized (Akash, Hyperbolic) providers
 2. **Publishes** a signed pricing feed via CDN that any agent can consume
 3. **Recommends** optimal routing: "You're about to pay $0.03. Same quality for $0.003 on Hyperbolic."
 4. **Tracks** agent compute spend and demonstrates savings
