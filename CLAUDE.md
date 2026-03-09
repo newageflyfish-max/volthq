@@ -17,7 +17,7 @@ The revenue is: **performance fees on demonstrated savings.**
 - **npm package:** volthq-mcp-server
 
 ## What Volt HQ Does
-1. **Aggregates** real-time compute pricing from centralized (OpenAI, Anthropic, Together AI) and decentralized (Akash, Hyperbolic) providers
+1. **Aggregates** real-time compute pricing from centralized (OpenAI, Anthropic, Groq, Together AI) and decentralized (Akash, Hyperbolic) providers
 2. **Publishes** a signed pricing feed via CDN that any agent can consume
 3. **Recommends** optimal routing: "You're about to pay $0.03. Same quality for $0.003 on Hyperbolic."
 4. **Tracks** agent compute spend and demonstrates savings
@@ -103,6 +103,15 @@ Each offering has: price, quality_score, reliability_score, latency_p50/p95, obs
 2. Total revenue under $1,000 cumulative
 3. No grant funding received or in pipeline
 4. DePIN provider APIs too immature to integrate
+
+## Build Rules
+When a new provider adapter is added or offerings change, always update all four surfaces:
+1. `README.md` — supported providers list and example output
+2. `packages/mcp-server/src/snapshot.ts` — add/update offerings
+3. `packages/dashboard/src/app/page.tsx` — pricing comparison table
+4. `packages/mcp-server/README.md` — copy from root README
+
+After changes: run `npm run build` in `packages/core` and `packages/mcp-server`, bump version in `packages/mcp-server/package.json`, publish with `npm publish --access public`, and deploy dashboard with `npx vercel --yes --prod` from the repo root.
 
 ## Previous Work That Feeds Into This
 - Arena Protocol: FICO scoring algorithm → provider reliability scoring

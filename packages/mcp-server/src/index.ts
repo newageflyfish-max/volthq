@@ -10,8 +10,22 @@
  *   - Fail-open: never degrades agent inference
  *   - Zero-config first run: install, see value, no account needed
  *   - Advisory first: we recommend, the agent decides
+ *
+ * Usage:
+ *   npx volthq-mcp-server          — start the MCP server (stdio transport)
+ *   npx volthq-mcp-server --setup  — auto-configure Cursor and Claude Desktop
  */
 
+import { runSetup } from './setup.js';
+
+// ── Handle --setup flag before importing MCP SDK ──────
+// (MCP SDK immediately binds to stdio, so we must exit before that)
+if (process.argv.includes('--setup')) {
+  runSetup();
+  process.exit(0);
+}
+
+// ── MCP Server ────────────────────────────────────────
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
