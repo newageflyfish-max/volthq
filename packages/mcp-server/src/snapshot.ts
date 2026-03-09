@@ -1,7 +1,7 @@
 /**
  * Volt HQ — Embedded Pricing Snapshot
  *
- * Hardcoded pricing data from all three provider adapters.
+ * Hardcoded pricing data from all four provider adapters.
  * Used as the default data source until a live feed is available.
  *
  * Last updated: March 2026
@@ -9,6 +9,7 @@
  *   - Hyperbolic: https://docs.hyperbolic.xyz/docs/hyperbolic-pricing
  *   - OpenAI: https://openai.com/pricing
  *   - Anthropic: https://docs.anthropic.com/en/docs/about-claude/models
+ *   - Akash: https://console-api.akash.network/v1/gpu-prices (live API, median prices)
  */
 
 import type { Offering } from '@volthq/core';
@@ -136,6 +137,106 @@ export const SNAPSHOT_OFFERINGS: Offering[] = [
     lastPriceUpdate: NOW,
     lastObservationUpdate: null,
     dataSource: 'manual',
+  },
+
+  // ─── Akash (DePIN) ──────────────────────────────────
+  // Pricing derived from live GPU-hour rates via gpuHourToPerToken():
+  // H100 SXM5 median $1.57/hr, A100 SXM4 median $1.18/hr
+  {
+    id: 'akash:meta-llama/Llama-3.1-70B-Instruct:FP8:H100-SXM:global',
+    providerId: 'akash',
+    providerName: 'Akash',
+    providerType: 'depin',
+    model: 'meta-llama/Llama-3.1-70B-Instruct',
+    modelShort: 'Llama-70B',
+    capabilityTier: 2,
+    quantization: 'FP8',
+    gpuType: 'H100-SXM',
+    region: 'global',
+    priceInputPerMillion: 3.489,   // $1.57/hr ÷ 180k tok/hr × 1M × 0.4
+    priceOutputPerMillion: 8.722,  // $1.57/hr ÷ 180k tok/hr × 1M
+    pricePerGpuHour: 1.57,
+    qualityScore: 0.85,
+    reliabilityScore: 0.5,
+    latencyP50Ms: null,
+    latencyP95Ms: null,
+    observationCount: 0,
+    status: 'active',
+    lastPriceUpdate: NOW,
+    lastObservationUpdate: null,
+    dataSource: 'api',
+  },
+  {
+    id: 'akash:meta-llama/Llama-3.1-70B-Instruct:FP8:A100-80GB:global',
+    providerId: 'akash',
+    providerName: 'Akash',
+    providerType: 'depin',
+    model: 'meta-llama/Llama-3.1-70B-Instruct',
+    modelShort: 'Llama-70B',
+    capabilityTier: 2,
+    quantization: 'FP8',
+    gpuType: 'A100-80GB',
+    region: 'global',
+    priceInputPerMillion: 5.244,   // $1.18/hr ÷ 90k tok/hr × 1M × 0.4
+    priceOutputPerMillion: 13.111, // $1.18/hr ÷ 90k tok/hr × 1M
+    pricePerGpuHour: 1.18,
+    qualityScore: 0.85,
+    reliabilityScore: 0.5,
+    latencyP50Ms: null,
+    latencyP95Ms: null,
+    observationCount: 0,
+    status: 'active',
+    lastPriceUpdate: NOW,
+    lastObservationUpdate: null,
+    dataSource: 'api',
+  },
+  {
+    id: 'akash:meta-llama/Llama-3.1-8B-Instruct:FP8:H100-SXM:global',
+    providerId: 'akash',
+    providerName: 'Akash',
+    providerType: 'depin',
+    model: 'meta-llama/Llama-3.1-8B-Instruct',
+    modelShort: 'Llama-8B',
+    capabilityTier: 3,
+    quantization: 'FP8',
+    gpuType: 'H100-SXM',
+    region: 'global',
+    priceInputPerMillion: 0.349,   // $1.57/hr ÷ 1.8M tok/hr × 1M × 0.4
+    priceOutputPerMillion: 0.872,  // $1.57/hr ÷ 1.8M tok/hr × 1M
+    pricePerGpuHour: 1.57,
+    qualityScore: 0.76,
+    reliabilityScore: 0.5,
+    latencyP50Ms: null,
+    latencyP95Ms: null,
+    observationCount: 0,
+    status: 'active',
+    lastPriceUpdate: NOW,
+    lastObservationUpdate: null,
+    dataSource: 'api',
+  },
+  {
+    id: 'akash:meta-llama/Llama-3.1-8B-Instruct:FP8:A100-80GB:global',
+    providerId: 'akash',
+    providerName: 'Akash',
+    providerType: 'depin',
+    model: 'meta-llama/Llama-3.1-8B-Instruct',
+    modelShort: 'Llama-8B',
+    capabilityTier: 3,
+    quantization: 'FP8',
+    gpuType: 'A100-80GB',
+    region: 'global',
+    priceInputPerMillion: 0.524,   // $1.18/hr ÷ 900k tok/hr × 1M × 0.4
+    priceOutputPerMillion: 1.311,  // $1.18/hr ÷ 900k tok/hr × 1M
+    pricePerGpuHour: 1.18,
+    qualityScore: 0.76,
+    reliabilityScore: 0.5,
+    latencyP50Ms: null,
+    latencyP95Ms: null,
+    observationCount: 0,
+    status: 'active',
+    lastPriceUpdate: NOW,
+    lastObservationUpdate: null,
+    dataSource: 'api',
   },
 
   // ─── OpenAI (Centralized) ────────────────────────────

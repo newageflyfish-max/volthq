@@ -27,18 +27,18 @@ export default function Home() {
       </nav>
 
       {/* ── Hero ─────────────────────────────────────── */}
-      <section className="flex flex-col items-center justify-center px-6 pt-32 pb-20 text-center">
-        <h1 className="max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
+      <section className="flex flex-col items-center justify-center px-4 sm:px-6 pt-28 sm:pt-32 pb-14 sm:pb-20 text-center">
+        <h1 className="max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-5xl">
           Your AI agent is overpaying by{' '}
           <span className="text-volt-400">80%</span>
         </h1>
         <p className="mt-4 max-w-lg text-lg text-neutral-400">
           The compute price oracle for AI agents.
         </p>
-        <div className="mt-8 flex gap-4">
+        <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
           <a
             href="#install"
-            className="rounded-md bg-volt-500 px-5 py-2.5 text-sm font-medium text-black hover:bg-volt-400 transition-colors"
+            className="rounded-md bg-volt-500 px-5 py-2.5 text-sm font-medium text-black hover:bg-volt-400 transition-colors text-center"
           >
             Install
           </a>
@@ -46,7 +46,7 @@ export default function Home() {
             href="https://github.com/newageflyfish-max/volthq"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-md border border-neutral-700 px-5 py-2.5 text-sm font-medium text-neutral-300 hover:border-neutral-500 hover:text-white transition-colors"
+            className="rounded-md border border-neutral-700 px-5 py-2.5 text-sm font-medium text-neutral-300 hover:border-neutral-500 hover:text-white transition-colors text-center"
           >
             GitHub
           </a>
@@ -54,41 +54,41 @@ export default function Home() {
       </section>
 
       {/* ── Pricing Comparison ────────────────────────── */}
-      <section className="mx-auto max-w-3xl px-6 py-16">
+      <section className="mx-auto max-w-3xl px-4 sm:px-6 py-10 sm:py-16">
         <h2 className="mb-2 text-center text-sm font-medium uppercase tracking-widest text-volt-400">
           Price comparison
         </h2>
         <p className="mb-8 text-center text-neutral-500 text-sm">
           Same-tier models. Wildly different prices.
         </p>
-        <div className="overflow-hidden rounded-lg border border-neutral-800">
-          <table className="w-full text-left text-sm">
+        <div className="overflow-x-auto rounded-lg border border-neutral-800">
+          <table className="w-full min-w-[480px] text-left text-sm">
             <thead>
               <tr className="border-b border-neutral-800 bg-neutral-900/50">
-                <th className="px-6 py-3 font-medium text-neutral-400">Provider</th>
-                <th className="px-6 py-3 font-medium text-neutral-400">Model</th>
-                <th className="px-6 py-3 text-right font-medium text-neutral-400">Avg $/M tokens</th>
-                <th className="px-6 py-3 text-right font-medium text-neutral-400">vs Cheapest</th>
+                <th className="px-3 sm:px-6 py-3 font-medium text-neutral-400">Provider</th>
+                <th className="px-3 sm:px-6 py-3 font-medium text-neutral-400">Model</th>
+                <th className="px-3 sm:px-6 py-3 text-right font-medium text-neutral-400">Avg $/M tokens</th>
+                <th className="px-3 sm:px-6 py-3 text-right font-medium text-neutral-400">vs Cheapest</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-800/50">
               <tr className="bg-emerald-950/20">
-                <td className="px-6 py-4 text-white font-medium">Hyperbolic</td>
-                <td className="px-6 py-4 text-neutral-300">Llama-70B (FP8)</td>
-                <td className="px-6 py-4 text-right font-mono text-emerald-400">$0.40</td>
-                <td className="px-6 py-4 text-right text-emerald-400 text-xs font-medium">cheapest</td>
+                <td className="px-3 sm:px-6 py-4 text-white font-medium">Hyperbolic</td>
+                <td className="px-3 sm:px-6 py-4 text-neutral-300">Llama-70B (FP8)</td>
+                <td className="px-3 sm:px-6 py-4 text-right font-mono text-emerald-400">$0.40</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-emerald-400 text-xs font-medium">cheapest</td>
               </tr>
               <tr>
-                <td className="px-6 py-4 text-white font-medium">OpenAI</td>
-                <td className="px-6 py-4 text-neutral-300">GPT-4o</td>
-                <td className="px-6 py-4 text-right font-mono text-red-400">$6.25</td>
-                <td className="px-6 py-4 text-right text-red-400 text-xs font-medium">15.6x more</td>
+                <td className="px-3 sm:px-6 py-4 text-white font-medium">OpenAI</td>
+                <td className="px-3 sm:px-6 py-4 text-neutral-300">GPT-4o</td>
+                <td className="px-3 sm:px-6 py-4 text-right font-mono text-red-400">$6.25</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-red-400 text-xs font-medium">15.6x more</td>
               </tr>
               <tr>
-                <td className="px-6 py-4 text-white font-medium">Anthropic</td>
-                <td className="px-6 py-4 text-neutral-300">Claude Sonnet 4.6</td>
-                <td className="px-6 py-4 text-right font-mono text-red-400">$9.00</td>
-                <td className="px-6 py-4 text-right text-red-400 text-xs font-medium">22.5x more</td>
+                <td className="px-3 sm:px-6 py-4 text-white font-medium">Anthropic</td>
+                <td className="px-3 sm:px-6 py-4 text-neutral-300">Claude Sonnet 4.6</td>
+                <td className="px-3 sm:px-6 py-4 text-right font-mono text-red-400">$9.00</td>
+                <td className="px-3 sm:px-6 py-4 text-right text-red-400 text-xs font-medium">22.5x more</td>
               </tr>
             </tbody>
           </table>
@@ -99,7 +99,7 @@ export default function Home() {
       </section>
 
       {/* ── Tools ─────────────────────────────────────── */}
-      <section id="tools" className="mx-auto max-w-3xl px-6 py-16">
+      <section id="tools" className="mx-auto max-w-3xl px-4 sm:px-6 py-10 sm:py-16">
         <h2 className="mb-8 text-center text-sm font-medium uppercase tracking-widest text-volt-400">
           MCP Tools
         </h2>
@@ -107,7 +107,7 @@ export default function Home() {
           {tools.map((t) => (
             <div
               key={t.name}
-              className="flex items-start gap-4 rounded-lg border border-neutral-800 bg-neutral-900/30 px-6 py-4"
+              className="flex flex-col sm:flex-row items-start gap-2 sm:gap-4 rounded-lg border border-neutral-800 bg-neutral-900/30 px-4 sm:px-6 py-3 sm:py-4"
             >
               <code className="shrink-0 rounded bg-neutral-800 px-2 py-1 text-xs font-medium text-volt-400">
                 {t.name}
@@ -119,7 +119,7 @@ export default function Home() {
       </section>
 
       {/* ── Install ───────────────────────────────────── */}
-      <section id="install" className="mx-auto max-w-3xl px-6 py-16">
+      <section id="install" className="mx-auto max-w-3xl px-4 sm:px-6 py-10 sm:py-16">
         <h2 className="mb-8 text-center text-sm font-medium uppercase tracking-widest text-volt-400">
           Install
         </h2>
