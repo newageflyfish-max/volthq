@@ -9,17 +9,8 @@
  * Pricing: https://docs.hyperbolic.xyz/docs/hyperbolic-pricing
  */
 
-import {
-  Offering,
-  ProviderAdapter,
-  ProviderType,
-} from '../../core/src/types.js';
-
-import {
-  makeOfferingId,
-  shortModelName,
-  assignCapabilityTier,
-} from '../../core/src/normalize.js';
+import type { Offering, ProviderAdapter, ProviderType } from '@volthq/core';
+import { makeOfferingId, shortModelName, assignCapabilityTier } from '@volthq/core';
 
 const PROVIDER_ID = 'hyperbolic';
 const PROVIDER_NAME = 'Hyperbolic';

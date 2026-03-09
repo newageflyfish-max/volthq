@@ -8,17 +8,8 @@
  * Last verified: March 2026
  */
 
-import {
-  Offering,
-  ProviderAdapter,
-  ProviderType,
-} from '../../core/src/types.js';
-
-import {
-  makeOfferingId,
-  shortModelName,
-  assignCapabilityTier,
-} from '../../core/src/normalize.js';
+import type { Offering, ProviderAdapter, ProviderType } from '@volthq/core';
+import { makeOfferingId, shortModelName, assignCapabilityTier } from '@volthq/core';
 
 const PROVIDER_ID = 'openai';
 const PROVIDER_NAME = 'OpenAI';

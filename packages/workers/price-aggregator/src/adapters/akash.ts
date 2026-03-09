@@ -9,17 +9,8 @@
  * Docs: https://akash.network/docs
  */
 
-import {
-  Offering,
-  ProviderAdapter,
-  ProviderType,
-} from '../../core/src/types.js';
-
-import {
-  makeOfferingId,
-  assignCapabilityTier,
-  gpuHourToPerToken,
-} from '../../core/src/normalize.js';
+import type { Offering, ProviderAdapter, ProviderType } from '@volthq/core';
+import { makeOfferingId, assignCapabilityTier, gpuHourToPerToken } from '@volthq/core';
 
 const PROVIDER_ID = 'akash';
 const PROVIDER_NAME = 'Akash';

@@ -9,7 +9,7 @@
 import type { PricingFeed, Offering, CircuitBreakerStatus, CircuitState } from '@volthq/core';
 import { SNAPSHOT_OFFERINGS } from './snapshot.js';
 
-const FEED_URL = 'https://feed.volthq.dev/v1/prices';
+const FEED_URL = 'https://volt-feed.volthq.workers.dev/v1/prices';
 const REFRESH_INTERVAL_MS = 60_000; // 60 seconds
 const CIRCUIT_BREAKER_THRESHOLD = 3; // consecutive failures before opening circuit
 const CIRCUIT_BREAKER_RESET_MS = 120_000; // 2 minutes in open state before half-open

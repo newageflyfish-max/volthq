@@ -1,0 +1,7 @@
+name = "volt-feed"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+[[kv_namespaces]]
+binding = "VOLT_PRICING"
+id = "0629eef9f4824fd49a1b0fd58cc23253"
