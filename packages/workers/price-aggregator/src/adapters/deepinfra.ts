@@ -1,12 +1,11 @@
 /**
  * Volt HQ — DeepInfra Provider Adapter
  *
- * Static pricing data for DeepInfra's inference API.
- * DeepInfra offers serverless inference on open-source models
- * at competitive per-token pricing.
+ * Fetches live pricing from DeepInfra's public models API.
+ * Falls back to static pricing if the API is unreachable.
  *
+ * API: https://api.deepinfra.com/models/list (public, no auth)
  * Pricing: https://deepinfra.com/pricing
- * Docs: https://deepinfra.com/docs
  */
 
 import type { Offering, ProviderAdapter, ProviderType } from '@volthq/core';
@@ -16,13 +15,10 @@ const PROVIDER_ID = 'deepinfra';
 const PROVIDER_NAME = 'DeepInfra';
 const PROVIDER_TYPE: ProviderType = 'centralized';
 
-/**
- * Known DeepInfra model pricing as of March 2026.
- * Source: https://deepinfra.com/pricing
- *
- * Manually maintained. Last verified: March 2026.
- */
-const DEEPINFRA_MODELS: Array<{
+const API_URL = 'https://api.deepinfra.com/models/list';
+
+/** Static fallback — used when live API is unreachable. */
+const FALLBACK_MODELS: Array<{
   model: string;
   inputPer1M: number;
   outputPer1M: number;
@@ -32,10 +28,17 @@ const DEEPINFRA_MODELS: Array<{
   { model: 'deepseek-ai/DeepSeek-V3', inputPer1M: 0.30, outputPer1M: 0.60 },
 ];
 
-/**
- * Quality scores for DeepInfra offerings.
- * DeepInfra serves models at full precision on A100/H100 clusters.
- */
+/** Model types to exclude — only keep text generation / chat models. */
+const EXCLUDED_TYPES = new Set([
+  'embeddings',
+  'automatic-speech-recognition',
+  'text-to-image',
+  'text-to-speech',
+  'image-classification',
+  'zero-shot-image-classification',
+  'object-detection',
+]);
+
 function getQualityScore(model: string): number {
   const tier = assignCapabilityTier(model);
   switch (tier) {
@@ -48,50 +51,112 @@ function getQualityScore(model: string): number {
   }
 }
 
+function buildOffering(
+  model: string,
+  inputPer1M: number,
+  outputPer1M: number,
+  now: string,
+  dataSource: 'api' | 'manual',
+): Offering {
+  return {
+    id: makeOfferingId(PROVIDER_ID, model, null, null, 'global'),
+    providerId: PROVIDER_ID,
+    providerName: PROVIDER_NAME,
+    providerType: PROVIDER_TYPE,
+    model,
+    modelShort: shortModelName(model),
+    capabilityTier: assignCapabilityTier(model),
+    quantization: null,
+    gpuType: null,
+    region: 'global',
+    priceInputPerMillion: inputPer1M,
+    priceOutputPerMillion: outputPer1M,
+    pricePerGpuHour: null,
+    qualityScore: getQualityScore(model),
+    reliabilityScore: 0.90,
+    latencyP50Ms: null,
+    latencyP95Ms: null,
+    observationCount: 0,
+    status: 'active',
+    lastPriceUpdate: now,
+    lastObservationUpdate: null,
+    dataSource,
+  };
+}
+
 /**
- * DeepInfra adapter implementation.
+ * Fetch live pricing from DeepInfra's public API.
+ * Returns null on failure so caller can fall back to static data.
  */
+async function fetchLivePricing(): Promise<Offering[] | null> {
+  const response = await fetch(API_URL, {
+    method: 'GET',
+    signal: AbortSignal.timeout(10_000),
+  });
+
+  if (!response.ok) return null;
+
+  const models: Array<{
+    model_name: string;
+    type: string;
+    deprecated?: boolean;
+    pricing?: {
+      cents_per_input_token: number | null;
+      cents_per_output_token: number | null;
+    };
+  }> = await response.json();
+
+  if (!Array.isArray(models)) return null;
+
+  const now = new Date().toISOString();
+  const offerings: Offering[] = [];
+
+  for (const m of models) {
+    // Skip non-text-generation models
+    if (EXCLUDED_TYPES.has(m.type)) continue;
+    if (m.type !== 'text-generation') continue;
+
+    // Skip deprecated models
+    if (m.deprecated) continue;
+
+    // Skip models without pricing data
+    const pricing = m.pricing;
+    if (!pricing) continue;
+    if (pricing.cents_per_input_token == null || pricing.cents_per_output_token == null) continue;
+    if (pricing.cents_per_input_token <= 0 || pricing.cents_per_output_token <= 0) continue;
+
+    // Convert cents/token → $/M tokens
+    // cents_per_token * 1_000_000 / 100 = cents_per_token * 10_000
+    const inputPer1M = pricing.cents_per_input_token * 10_000;
+    const outputPer1M = pricing.cents_per_output_token * 10_000;
+
+    offerings.push(buildOffering(m.model_name, inputPer1M, outputPer1M, now, 'api'));
+  }
+
+  return offerings.length > 0 ? offerings : null;
+}
+
 export const deepinfraAdapter: ProviderAdapter = {
   providerId: PROVIDER_ID,
   providerName: PROVIDER_NAME,
   providerType: PROVIDER_TYPE,
 
   async getOfferings(): Promise<Offering[]> {
+    try {
+      const live = await fetchLivePricing();
+      if (live) return live;
+    } catch (err) {
+      console.warn(`DeepInfra live fetch failed, using fallback: ${err instanceof Error ? err.message : err}`);
+    }
+
+    // Fallback to static data
     const now = new Date().toISOString();
-
-    return DEEPINFRA_MODELS.map(m => {
-      const id = makeOfferingId(PROVIDER_ID, m.model, null, null, 'global');
-
-      return {
-        id,
-        providerId: PROVIDER_ID,
-        providerName: PROVIDER_NAME,
-        providerType: PROVIDER_TYPE,
-        model: m.model,
-        modelShort: shortModelName(m.model),
-        capabilityTier: assignCapabilityTier(m.model),
-        quantization: null,
-        gpuType: null,
-        region: 'global',
-        priceInputPerMillion: m.inputPer1M,
-        priceOutputPerMillion: m.outputPer1M,
-        pricePerGpuHour: null,
-        qualityScore: getQualityScore(m.model),
-        reliabilityScore: 0.90,
-        latencyP50Ms: null,
-        latencyP95Ms: null,
-        observationCount: 0,
-        status: 'active',
-        lastPriceUpdate: now,
-        lastObservationUpdate: null,
-        dataSource: 'manual',
-      };
-    });
+    return FALLBACK_MODELS.map(m => buildOffering(m.model, m.inputPer1M, m.outputPer1M, now, 'manual'));
   },
 
   async healthCheck(): Promise<boolean> {
     try {
-      const response = await fetch('https://api.deepinfra.com/v1/openai/models', {
+      const response = await fetch(API_URL, {
         method: 'GET',
         signal: AbortSignal.timeout(5000),
       });
