@@ -33,7 +33,7 @@ export default function Home() {
           <span className="text-volt-400">80%</span>
         </h1>
         <p className="mt-4 max-w-lg text-lg text-neutral-400">
-          The compute price oracle for AI agents.
+          106+ offerings across 8 providers. Live API pricing.
         </p>
         <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
           <a
@@ -124,7 +124,7 @@ export default function Home() {
           </table>
         </div>
         <p className="mt-4 text-center text-xs text-neutral-600">
-          Prices as of March 2026. Per-million-token average of input + output.
+          106+ offerings across 8 providers. DeepInfra prices pulled live via API. Per-million-token average of input + output.
         </p>
       </section>
 

@@ -4,7 +4,7 @@ The compute price oracle for AI agents.
 
 ## What it does
 
-- **Compares pricing** across centralized (OpenAI, Anthropic, Groq, Together AI, DeepInfra, Fireworks AI) and decentralized (Hyperbolic, Akash) providers in real time
+- **Compares pricing** across 8 providers (OpenAI, Anthropic, Groq, Together AI, DeepInfra, Fireworks AI, Hyperbolic, Akash) — 106+ offerings with live API pricing
 - **Recommends optimal routing** — tells your agent where to get the same quality for less, with savings estimates
 - **Tracks spend and budgets** — spending summaries by provider/model, savings reports, and threshold alerts
 
@@ -109,7 +109,7 @@ DeepInfra at $0.24/M, Hyperbolic at $0.40/M, Groq at $0.69/M, Fireworks AI at $0
 - **Anthropic** — Claude Sonnet 4.6, Claude Haiku 4.5
 - **Groq** — Llama-70B, Llama-8B, Mixtral-8x7B
 - **Together AI** — Llama-70B, Llama-8B, DeepSeek-V3
-- **DeepInfra** — Llama-70B, Llama-8B, DeepSeek-V3
+- **DeepInfra** — 75+ models with live API pricing (Llama, DeepSeek, Qwen, Mistral, Gemma, and more)
 - **Fireworks AI** — Llama-70B, Llama-8B, DeepSeek-R1
 - **Hyperbolic** — DeepSeek-V3, DeepSeek-R1, Llama-70B, Llama-8B
 - **Akash** — Llama-70B, Llama-8B on H100 and A100 (live GPU pricing)
