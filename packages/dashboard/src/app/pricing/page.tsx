@@ -137,6 +137,12 @@ export default function PricingPage() {
                 ))}
               </ul>
 
+              {tier.priceEnv && (
+                <p className="mt-4 text-xs text-neutral-600">
+                  Early access — features launching April 2026
+                </p>
+              )}
+
               {tier.priceEnv ? (
                 <button
                   onClick={() => handleCheckout(tier.priceEnv)}
