@@ -11,6 +11,9 @@ export default function Home() {
             <a href="#tools" className="text-neutral-400 hover:text-white transition-colors">
               Tools
             </a>
+            <a href="/pricing" className="text-neutral-400 hover:text-white transition-colors">
+              Pricing
+            </a>
             <a href="#install" className="text-neutral-400 hover:text-white transition-colors">
               Install
             </a>
