@@ -52,16 +52,23 @@ const tiers = [
 ] as const;
 
 async function handleCheckout(tier: 'pro' | 'enterprise') {
-  const res = await fetch('/api/checkout', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tier }),
-  });
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tier }),
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (data.url) {
+    if (!res.ok || !data.url) {
+      alert(data.error ?? 'Checkout is not available yet. Please try again later.');
+      return;
+    }
+
     window.location.href = data.url;
+  } catch {
+    alert('Unable to connect to checkout. Please try again later.');
   }
 }
 
