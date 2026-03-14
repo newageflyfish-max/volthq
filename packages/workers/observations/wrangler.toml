@@ -1,0 +1,9 @@
+name = "volt-observations"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "volt-observations"
+database_id = "daf8463b-0e2b-4edc-8c87-935c40b3d43d"
+migrations_dir = "migrations"

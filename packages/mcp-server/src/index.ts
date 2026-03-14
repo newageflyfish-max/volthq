@@ -33,6 +33,7 @@ import { FeedCache } from './feed-cache.js';
 import { SpendTracker } from './spend-tracker.js';
 import { checkPriceSchema, handleCheckPrice } from './tools/check-price.js';
 import { recommendRouteSchema, handleRecommendRoute } from './tools/recommend-route.js';
+import { reportObservation } from './observer.js';
 import { getSpendSchema, handleGetSpend } from './tools/get-spend.js';
 import { getSavingsSchema, handleGetSavings } from './tools/get-savings.js';
 import { setBudgetAlertSchema, handleSetBudgetAlert } from './tools/set-budget-alert.js';
@@ -50,7 +51,25 @@ server.tool(
   'volt_check_price',
   'Compare pricing across providers for a given model. Returns offerings sorted by price with quality and reliability data.',
   checkPriceSchema.shape,
-  async (input) => handleCheckPrice(checkPriceSchema.parse(input), feedCache),
+  async (input) => {
+    const start = Date.now();
+    const parsed = checkPriceSchema.parse(input);
+    const result = handleCheckPrice(parsed, feedCache);
+    const offerings = feedCache.getOfferings();
+    const matches = offerings.filter(
+      (o) => o.model.toLowerCase().includes(parsed.model.toLowerCase()) ||
+             o.modelShort.toLowerCase().includes(parsed.model.toLowerCase()),
+    );
+    for (const o of matches.slice(0, 5)) {
+      reportObservation({
+        providerId: o.providerId,
+        model: o.model,
+        latencyMs: Date.now() - start,
+        success: true,
+      });
+    }
+    return result;
+  },
 );
 
 // ── volt_recommend_route ──────────────────────────────
@@ -58,7 +77,25 @@ server.tool(
   'volt_recommend_route',
   'Get the optimal provider recommendation for a model based on cost, latency, reliability, or balanced optimization. Shows savings vs your current cost.',
   recommendRouteSchema.shape,
-  async (input) => handleRecommendRoute(recommendRouteSchema.parse(input), feedCache),
+  async (input) => {
+    const start = Date.now();
+    const parsed = recommendRouteSchema.parse(input);
+    const result = handleRecommendRoute(parsed, feedCache);
+    const offerings = feedCache.getOfferings();
+    const matches = offerings.filter(
+      (o) => o.model.toLowerCase().includes(parsed.model.toLowerCase()) ||
+             o.modelShort.toLowerCase().includes(parsed.model.toLowerCase()),
+    );
+    if (matches[0]) {
+      reportObservation({
+        providerId: matches[0].providerId,
+        model: matches[0].model,
+        latencyMs: Date.now() - start,
+        success: true,
+      });
+    }
+    return result;
+  },
 );
 
 // ── volt_get_spend ────────────────────────────────────
