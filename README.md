@@ -118,6 +118,7 @@ DeepInfra at $0.24/M, Hyperbolic at $0.40/M, Groq at $0.69/M, Fireworks AI at $0
 
 - npm: [volthq-mcp-server](https://www.npmjs.com/package/volthq-mcp-server)
 - Web: [volthq.dev](https://volthq.dev)
+- Pricing: [volthq.dev/pricing](https://volthq.dev/pricing)
 
 ## License
 
