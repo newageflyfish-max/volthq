@@ -2,6 +2,8 @@
 
 The compute price oracle for AI agents.
 
+[![volthq-mcp-server MCP server](https://glama.ai/mcp/servers/newageflyfish-max/volthq/badges/card.svg)](https://glama.ai/mcp/servers/newageflyfish-max/volthq)
+
 ## What it does
 
 - **Compares pricing** across 8 providers (OpenAI, Anthropic, Groq, Together AI, DeepInfra, Fireworks AI, Hyperbolic, Akash) — 106+ offerings with live API pricing
