@@ -17,19 +17,12 @@ const PROVIDER_NAME = 'Akash';
 const PROVIDER_TYPE: ProviderType = 'depin';
 const API_URL = 'https://console-api.akash.network/v1/gpu-prices';
 
-/**
- * GPU models we care about and their Volt-normalized names.
- */
 const GPU_MAP: Record<string, { voltName: string; interface: string }> = {
   h100: { voltName: 'H100-SXM', interface: 'SXM5' },
+  h200: { voltName: 'H200-SXM', interface: 'SXM5' },
   a100: { voltName: 'A100-80GB', interface: 'SXM4' },
 };
 
-/**
- * Models we generate offerings for on each GPU.
- * Akash rents raw GPUs — the user runs whatever model they want.
- * We estimate pricing for popular open-source models.
- */
 const INFERENCE_MODELS: Array<{
   model: string;
   short: string;
@@ -39,11 +32,6 @@ const INFERENCE_MODELS: Array<{
   { model: 'meta-llama/Llama-3.1-8B-Instruct', short: 'Llama-8B', quantization: 'FP8' },
 ];
 
-/**
- * Quality score for Akash offerings.
- * Same model quality as any other host, but DePIN has lower
- * baseline reliability until we have observation data.
- */
 function getQualityScore(model: string, quantization: string): number {
   const tier = assignCapabilityTier(model);
   let base: number;
@@ -55,7 +43,6 @@ function getQualityScore(model: string, quantization: string): number {
     case 5: base = 0.50; break;
     default: base = 0.75;
   }
-
   switch (quantization) {
     case 'BF16': return base;
     case 'FP8': return base * 0.97;
@@ -78,15 +65,12 @@ interface AkashGpuPriceResponse {
       min: number | null;
       max: number | null;
       avg: number | null;
-      median: number | null;
+      med: number | null;          // API uses "med" not "median"
       weightedAverage: number | null;
     };
   }>;
 }
 
-/**
- * Akash adapter implementation.
- */
 export const akashAdapter: ProviderAdapter = {
   providerId: PROVIDER_ID,
   providerName: PROVIDER_NAME,
@@ -113,11 +97,10 @@ export const akashAdapter: ProviderAdapter = {
       const gpuInfo = GPU_MAP[gpuKey];
       if (!gpuInfo) continue;
 
-      // Use median price — most representative of market rate
-      const pricePerHour = gpuEntry.price.median;
+      // API returns "med" not "median"
+      const pricePerHour = gpuEntry.price.med ?? gpuEntry.price.weightedAverage ?? gpuEntry.price.avg;
       if (pricePerHour == null || pricePerHour <= 0) continue;
 
-      // Skip GPUs with zero availability
       if (gpuEntry.availability.available <= 0) continue;
 
       for (const inferenceModel of INFERENCE_MODELS) {
